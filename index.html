@@ -55,18 +55,45 @@
       background:transparent; color:var(--muted); border:1px solid var(--stroke);
       font-weight:700;
     }
+
+    /* =====================
+       MODAL (FIX iPhone)
+       ===================== */
     .modal{
       position:fixed; inset:0; display:none; align-items:center; justify-content:center;
       background:rgba(0,0,0,.6); padding:16px;
     }
     .modal .box{
       width:min(860px,100%);
-      background:var(--card); border:1px solid var(--stroke);
-      border-radius:18px; padding:18px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      padding:16px;
+
+      max-height: 88vh;          /* ✅ tidak melebihi layar */
+      display:flex;
+      flex-direction:column;
+    }
+    .modal .content{
+      margin-top:10px;
+      background:var(--qbox);
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:12px;
+      overflow:auto;              /* ✅ bisa scroll */
+      -webkit-overflow-scrolling: touch;
+      flex:1;
     }
     .modal pre{
       white-space:pre-wrap; margin:0; font-family:inherit; line-height:1.35;
       font-size:14px;
+    }
+    .modal .actions{
+      position: sticky;           /* ✅ tombol tetap kelihatan */
+      bottom: 0;
+      background: var(--card);
+      padding-top: 12px;
+      margin-top: 12px;
     }
   </style>
 </head>
@@ -102,9 +129,15 @@
 
   <div class="modal" id="modal">
     <div class="box">
-      <h2 style="margin:0 0 10px; font-size:18px;">Hasil Ujian</h2>
-      <pre id="result"></pre>
-      <div style="display:flex; gap:10px; margin-top:14px;">
+      <h2 style="margin:0; font-size:18px;">Hasil Ujian</h2>
+
+      <!-- ✅ area hasil dibuat scrollable -->
+      <div class="content">
+        <pre id="result"></pre>
+      </div>
+
+      <!-- ✅ tombol tetap kelihatan -->
+      <div class="actions" style="display:flex; gap:10px;">
         <button class="btnTrue" id="btnClose">Tutup</button>
       </div>
     </div>
@@ -208,7 +241,6 @@
   prog.max = data.length;
 
   function acakPosisiTombol(){
-    // acak urutan tombol di DOM
     const items = [btnTrue, btnFalse];
     shuffle(items);
     btnrow.innerHTML = "";
@@ -255,8 +287,14 @@
     } else {
       teks += "🎉 Semua jawaban BENAR!";
     }
+
     result.textContent = teks;
     modal.style.display = "flex";
+
+    // ✅ selalu mulai dari atas saat modal muncul (iPhone friendly)
+    const content = modal.querySelector(".content");
+    if(content) content.scrollTop = 0;
+    window.scrollTo(0, 0);
   }
 
   function resetAll(){
