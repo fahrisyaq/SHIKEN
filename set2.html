@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <!-- ✅ Anti zoom iPhone -->
-  <meta name="viewport"
-        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Latihan Benar / Salah</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>JS.b_JP</title>
 
   <style>
     :root{
       --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#94a3b8;
       --accent:#38bdf8; --danger:#334155; --stroke:#1f2937;
       --qbox:#0b1220;
+      --accent2:#22c55e;
     }
     *{box-sizing:border-box}
     html,body{overscroll-behavior:none}
@@ -30,8 +30,14 @@
       padding:22px;
       box-shadow: 0 10px 35px rgba(0,0,0,.35);
     }
-    .title{font-size:26px; font-weight:800; margin:0 0 6px}
+
+    .toprow{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      margin-bottom:8px;
+    }
+    .title{font-size:26px; font-weight:800; margin:0}
     .sub{color:var(--muted); margin:0 0 16px; font-size:13px}
+
     .qbox{
       background:var(--qbox);
       border:1px solid var(--stroke);
@@ -41,31 +47,57 @@
       display:flex; align-items:flex-start;
     }
     .qtext{font-size:20px; line-height:1.35; white-space:pre-wrap}
+
     .barwrap{margin-top:16px}
     .barrow{display:flex; justify-content:space-between; align-items:center; gap:12px}
     .ptext{color:var(--muted); font-size:12px}
     progress{width:100%; height:14px; border-radius:999px; overflow:hidden}
     progress::-webkit-progress-bar{background:#0b1220}
     progress::-webkit-progress-value{background:var(--accent)}
+
     .btnrow{display:flex; gap:14px; margin-top:14px}
 
-    /* ✅ tombol anti zoom */
+    /* ✅ tombol modern + anti zoom */
     button{
-      flex:1; border:0; border-radius:14px; padding:14px 14px;
-      font-size:16px; font-weight:800; cursor:pointer;
+      flex:1;
+      border:0;
+      border-radius:16px;
+      padding:18px;
+      font-size:18px;
+      font-weight:800;
+      cursor:pointer;
 
+      transition:.15s ease;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
       -webkit-user-select: none;
       user-select: none;
     }
-    .btnTrue{background:var(--accent); color:var(--bg)}
+    button:active{transform:scale(.99); opacity:.95}
+
+    .btnTrue{background:var(--accent); color:#000}
     .btnFalse{background:var(--danger); color:var(--text)}
-    .hint{margin-top:10px; color:var(--muted); font-size:12px}
+
     .footerBtns{display:flex; gap:10px; margin-top:14px}
     .ghost{
-      background:transparent; color:var(--muted); border:1px solid var(--stroke);
-      font-weight:700;
+      background:transparent;
+      color:var(--muted);
+      border:1px solid var(--stroke);
+      font-weight:800;
+      padding:14px;
+      font-size:15px;
+      border-radius:16px;
+    }
+
+    .back{
+      background:var(--accent2);
+      color:#000;
+      border:0;
+      padding:14px 16px;
+      font-size:14px;
+      border-radius:14px;
+      white-space:nowrap;
+      flex:0 0 auto;
     }
 
     /* =====================
@@ -106,13 +138,19 @@
       background: var(--card);
       padding-top: 12px;
       margin-top: 12px;
+      display:flex;
+      gap:10px;
     }
   </style>
 </head>
 
 <body>
   <div class="card">
-    <h1 class="title">Latihan Benar / Salah</h1>
+    <div class="toprow">
+      <h1 class="title">JS.b_JP</h1>
+      <button class="back" onclick="location.href='./index.html'">⬅ Menu</button>
+    </div>
+
     <p class="sub" id="sub">Soal 1 dari 40 • No. Asli: 1</p>
 
     <div class="qbox">
@@ -137,7 +175,9 @@
       <button class="ghost" id="btnFinish">Selesai & Lihat Hasil</button>
     </div>
 
-    <div class="hint">Tips: di iPhone tinggal tap tombol. (Keyboard shortcut: B = Benar, S = Salah, Esc = selesai)</div>
+    <div class="hint" style="margin-top:10px; color:var(--muted); font-size:12px;">
+      Tips: iPhone friendly • tombol diacak • hasil bisa scroll
+    </div>
   </div>
 
   <div class="modal" id="modal">
@@ -148,8 +188,9 @@
         <pre id="result"></pre>
       </div>
 
-      <div class="actions" style="display:flex; gap:10px;">
+      <div class="actions">
         <button class="btnTrue" id="btnClose">Tutup</button>
+        <button class="ghost" id="btnMenu">⬅ Menu</button>
       </div>
     </div>
   </div>
@@ -182,7 +223,7 @@
     "19. ようせつさぎょうがおわったらようせつきのスイッチをきるひつようがある。",
     "20. たかいばしょでようせつさぎょうをするときはあんぜんぼうをしようするひつようがある。",
 
-    // Set 2 (21-40) (renumbered)
+    // Set 2 (21-40)
     "21. きんぞくはようせつしても、へんけいしない。",
     "22. でんりゅうのたんいは、アンペアという。",
     "23. でんこうのたんいは、ボルトという。",
@@ -219,9 +260,6 @@
     true,  true,  false, false, true
   ];
 
-  // =====================
-  // HELPERS
-  // =====================
   function shuffle(arr){
     for(let i=arr.length-1;i>0;i--){
       const j = Math.floor(Math.random()*(i+1));
@@ -229,16 +267,12 @@
     }
   }
 
-  // data = {no_asli, soal, kunci}
   let data = soal.map((s, i) => ({ no_asli: i+1, soal: s, kunci: jawaban[i] }));
   shuffle(data);
 
   let idx = 0;
   let salah = [];
 
-  // =====================
-  // UI ELEMENTS
-  // =====================
   const qtext = document.getElementById("qtext");
   const sub = document.getElementById("sub");
   const ptext = document.getElementById("ptext");
@@ -251,6 +285,7 @@
   const modal = document.getElementById("modal");
   const result = document.getElementById("result");
   const btnClose = document.getElementById("btnClose");
+  const btnMenu = document.getElementById("btnMenu");
   const btnReset = document.getElementById("btnReset");
   const btnFinish = document.getElementById("btnFinish");
 
@@ -321,21 +356,19 @@
     render();
   }
 
-  // events
   btnTrue.addEventListener("click", ()=>jawab(true));
   btnFalse.addEventListener("click", ()=>jawab(false));
   btnClose.addEventListener("click", ()=>modal.style.display="none");
+  btnMenu.addEventListener("click", ()=>location.href="./index.html");
   btnReset.addEventListener("click", resetAll);
   btnFinish.addEventListener("click", showHasil);
 
-  // keyboard
   window.addEventListener("keydown", (e)=>{
     if(e.key === "b" || e.key === "B") jawab(true);
     if(e.key === "s" || e.key === "S") jawab(false);
     if(e.key === "Escape") showHasil();
   });
 
-  // start
   render();
 </script>
 </body>
