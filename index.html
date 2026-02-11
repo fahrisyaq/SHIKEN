@@ -1,75 +1,106 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Menu Latihan</title>
-  <style>
-    :root{
-      --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#94a3b8;
-      --accent:#38bdf8; --stroke:#1f2937; --qbox:#0b1220;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-      background:var(--bg); color:var(--text);
-      min-height:100vh; display:flex; align-items:center; justify-content:center;
-      padding:16px;
-    }
-    .card{
-      width:min(860px,100%);
-      background:var(--card);
-      border:1px solid var(--stroke);
-      border-radius:18px;
-      padding:24px;
-      box-shadow:0 10px 35px rgba(0,0,0,.35);
-    }
-    .title{font-size:26px;font-weight:800;margin:0 0 6px}
-    .sub{color:var(--muted);margin:0 0 18px;font-size:13px}
-    .grid{display:grid; grid-template-columns:1fr; gap:14px}
-    @media (min-width:640px){ .grid{grid-template-columns:1fr 1fr} }
-    a.btn{
-      display:block; text-decoration:none;
-      background:var(--qbox);
-      border:1px solid var(--stroke);
-      border-radius:16px;
-      padding:18px;
-      color:var(--text);
-      font-weight:800;
-      transition:transform .05s ease;
-      touch-action:manipulation;
-      -webkit-tap-highlight-color:transparent;
-      user-select:none;
-    }
-    a.btn:active{transform:scale(.99)}
-    .tag{display:inline-block; margin-top:10px; font-size:12px; color:var(--muted)}
-    .primary{border-color:rgba(56,189,248,.35)}
-    .hint{margin-top:14px; font-size:12px; color:var(--muted)}
-    code{color:var(--accent)}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<title>SHIKEN MENU</title>
+
+<style>
+:root{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --accent:#38bdf8;
+  --accent2:#22c55e;
+  --stroke:#1f2937;
+}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:16px;
+}
+
+.card{
+  width:min(500px,100%);
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 10px 35px rgba(0,0,0,.35);
+  text-align:center;
+}
+
+h1{
+  margin:0 0 25px;
+  font-size:28px;
+  letter-spacing:1px;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+a.button{
+  display:block;
+  text-decoration:none;
+  padding:18px;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:800;
+  transition:.15s ease;
+  touch-action:manipulation;
+}
+
+.btn1{
+  background:var(--accent);
+  color:#000;
+}
+
+.btn2{
+  background:var(--accent2);
+  color:#000;
+}
+
+a.button:hover{
+  transform:translateY(-2px);
+  opacity:.9;
+}
+
+.footer{
+  margin-top:25px;
+  font-size:12px;
+  color:var(--muted);
+}
+</style>
 </head>
+
 <body>
-  <div class="card">
-    <div class="title">Menu Latihan Benar / Salah</div>
-    <div class="sub">Pilih set soal di bawah.</div>
 
-    <div class="grid">
-      <!-- 🔧 Pastikan nama file sesuai -->
-      <a class="btn primary" href="./set1.html">
-        📘 Set 1
-        <div class="tag">Buka: <code>set1.html</code></div>
-      </a>
+<div class="card">
+  <h1>SHIKEN</h1>
 
-      <a class="btn" href="./set2.html">
-        📙 Set 2
-        <div class="tag">Buka: <code>set2.html</code></div>
-      </a>
-    </div>
-
-    <div class="hint">
-      Kalau file kamu namanya beda (mis. <code>latihan1.html</code>), ganti link <code>href</code> di atas.
-    </div>
+  <div class="menu">
+    <!-- Pastikan nama file sesuai -->
+    <a class="button btn1" href="./set1.html">H29_H25</a>
+    <a class="button btn2" href="./set2.html">JS.b_JP</a>
   </div>
+
+  <div class="footer">
+    Pilih set untuk memulai latihan
+  </div>
+</div>
+
 </body>
 </html>
