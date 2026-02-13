@@ -74,23 +74,37 @@
     </div>
 
     <div class="err" id="err"></div>
+    <div class="hint">Login pakai kredensial yang kamu tentukan.</div>
   </div>
 
 <script>
-  // ✅ ID & Password
-  const VALID_ID = "miyagi";
-  const VALID_PW = "miyagi";
+  const EXPECTED_HASH_HEX = "7b99741ef7e4d4e412253ad88d0355b5ac9f0d4d8e1a0f5d0adf6d5b6c5e3e53";
 
   const uid = document.getElementById("uid");
   const pw  = document.getElementById("pw");
   const err = document.getElementById("err");
 
-  function login(){
+  async function sha256Hex(str){
+    const enc = new TextEncoder().encode(str);
+    const buf = await crypto.subtle.digest("SHA-256", enc);
+    const bytes = Array.from(new Uint8Array(buf));
+    return bytes.map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function login(){
     err.textContent = "";
     const idv = (uid.value || "").trim();
     const pwv = (pw.value || "").trim();
 
-    if(idv === VALID_ID && pwv === VALID_PW){
+    if(!idv || !pwv){
+      err.textContent = "ID dan Password harus diisi.";
+      return;
+    }
+
+    const token = `${idv}:${pwv}`;
+    const hex = await sha256Hex(token);
+
+    if(hex === EXPECTED_HASH_HEX){
       localStorage.setItem("shiken_logged_in", "1");
       location.href = "./index.html";
     } else {
@@ -107,7 +121,6 @@
     if(e.key === "Enter") login();
   });
 
-  // kalau sudah login, langsung ke menu
   if(localStorage.getItem("shiken_logged_in") === "1"){
     location.href = "./index.html";
   }
