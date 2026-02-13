@@ -196,6 +196,12 @@
       </div>
     </div>
   </div>
+<script>
+  // ✅ wajib login dulu
+  if (localStorage.getItem("shiken_logged_in") !== "1") {
+    location.href = "./login.html";
+  }
+</script>
 
 <script>
   // =====================
